@@ -33,3 +33,6 @@ Option list:
 * -A|--ac-status				Enables the display of the status of the AC adapter
 * -f|--fn-status				Enables the display of the status of the function buttons
 
+## Contributing
+This project is licensed under the GNU General Public License version 3.  Feel free to submit a pull request if you make changes.  
+
