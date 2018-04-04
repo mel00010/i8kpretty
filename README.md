@@ -1,7 +1,7 @@
 # i8kpretty
 
 ## Summary
-i8kpretty is a pretty printer for `/proc/i8k`.  
+i8kpretty is a pretty printer for `/proc/i8k`.  `/proc/i8k` is used on Dell laptops to monitor the state of the fans, among other things.  However, this file has no labels for which numbers represent what information.  This program parses the file and outputs a nicely formatted table containing the parsed information.  
 
 
 ## Dependencies
