@@ -1,0 +1,200 @@
+#!/bin/bash
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+if [ -z ${1+x} ]; then
+	cat /proc/i8k | awk '{ print "| CPU Temp  |  R Fan Speed  | R Fan Status  |\n|-----------|---------------|---------------|\n| "$4"\t\t| "$8"\t\t\t| "$6"\t\t\t\t|"}' | expand -t 4
+	exit 0
+fi
+
+column_names=''
+line_separator=''
+awk_string='{ print "'
+
+help_string='Usage: [-h|--help][-a|--all][-i|--i8k-version][-b|--bios-version][-t|--service-tag][-c|--cpu-temp][-s|--fan-speed][-l|--left-fan-speed][-r|--right-fan-speed][-S|--fan-status][-L|--left-fan-status][-R|--right-fan-status][-A|--ac-status][-f|--fn-status]'
+
+OPT=$(getopt -o 'haibtcslrSLRAf' --long 'help,all,i8k-version,bios-version,service-tag,cpu-temp,fan-speed,left-fan-speed,right-fan-speed,fan-status,left-fan-status,right-fan-status,ac-status,fn-status' -n 'i8kpretty' -- "$@")
+
+if [ $? -ne 0 ]; then
+	echo $help_string >&2
+	exit 1
+fi
+
+eval set -- "$OPT"
+unset OPT
+
+while true; do
+	case "$1" in
+		'-h'|'--help')
+			echo $help_string
+			exit 0
+			;;
+		'-a'|'--all')
+			column_names=''
+			line_separator=''
+			awk_string='{ print "'
+
+			column_names+='|  i8k Version  '
+			line_separator+='|---------------'
+			awk_string+='| "$1"\t\t\t'
+
+			column_names+='| BIOS Version  '
+			line_separator+='|---------------'
+			awk_string+='| "$2"\t\t\t'
+
+			column_names+='|  Service Tag  '
+			line_separator+='|---------------'
+			awk_string+='| "$3"\t\t'
+
+			column_names+='| CPU Temp  '
+			line_separator+='|-----------'
+			awk_string+='| "$4"\t\t'
+
+			column_names+='| L Fan Status  '
+			line_separator+='|---------------'
+			awk_string+='| "$5"\t\t\t'
+
+			column_names+='| R Fan Status  '
+			line_separator+='|---------------'
+			awk_string+='| "$6"\t\t\t\t'
+
+			column_names+='|  L Fan Speed  '
+			line_separator+='|---------------'
+			awk_string+='| "$7"\t\t\t'
+
+			column_names+='|  R Fan Speed  '
+			line_separator+='|---------------'
+			awk_string+='| "$8"\t\t\t'
+
+			column_names+='| AC Status '
+			line_separator+='|-----------'
+			awk_string+='| "$9"\t\t'
+
+			column_names+='| Fn Status '
+			line_separator+='|-----------'
+			awk_string+='| "$10"\t\t'
+			shift
+			continue
+			;;
+		'-i'|'--i8k-version')
+			column_names+='|  i8k Version  '
+			line_separator+='|---------------'
+			awk_string+='| "$1"\t        '
+			shift
+			continue
+			;;
+		'-b'|'--bios-version')
+			column_names+='| BIOS Version  '
+			line_separator+='|---------------'
+			awk_string+='| "$2"\t\t\t'
+			shift
+			continue
+			;;
+		'-t'|'--service-tag')
+			column_names+='|  Service Tag  '
+			line_separator+='|---------------'
+			awk_string+='| "$3"\t\t'
+			shift
+			continue
+			;;
+		'-c'|'--cpu-temp')
+			column_names+='| CPU Temp  '
+			line_separator+='|-----------'
+			awk_string+='| "$4"\t\t'
+			shift
+			continue
+			;;
+		'-s'|'--fan-speed')
+			column_names+='|  L Fan Speed  '
+			line_separator+='|---------------'
+			awk_string+='| "$7"\t\t\t'
+
+			column_names+='|  R Fan Speed  '
+			line_separator+='|---------------'
+			awk_string+='| "$8"\t\t\t'
+			shift
+			continue
+			;;
+		'-l'|'--left-fan-speed')
+			column_names+='|  L Fan Speed  '
+			line_separator+='|---------------'
+			awk_string+='| "$7"\t\t\t'
+			shift
+			continue
+			;;
+		'-r'|'--right-fan-speed')
+			column_names+='|  R Fan Speed  '
+			line_separator+='|---------------'
+			awk_string+='| "$8"\t\t\t'
+			shift
+			continue
+			;;
+		'-S'|'--fan-status')
+			column_names+='| L Fan Status  '
+			line_separator+='|---------------'
+			awk_string+='| "$5"\t\t\t'
+
+			column_names+='| R Fan Status  '
+			line_separator+='|---------------'
+			awk_string+='| "$6" \t\t\t'
+			shift
+			continue
+			;;
+		'-L'|'--left-fan-status')
+			column_names+='| L Fan Status  '
+			line_separator+='|---------------'
+			awk_string+='| "$5"\t\t\t'
+			shift
+			continue
+			;;
+		'-R'|'--right-fan-status')
+			column_names+='| R Fan Status  '
+			line_separator+='|---------------'
+			awk_string+='| "$6" \t\t\t'
+			shift
+			continue
+			;;
+		'-A'|'--ac-status')
+			column_names+='| AC Status '
+			line_separator+='|-----------'
+			awk_string+='| "$9"\t\t'
+			shift
+			continue
+			;;
+		'-f'|'--fn-status')
+			column_names+='| Fn Status '
+			line_separator+='|-----------'
+			awk_string+='| "$10"\t\t'
+			shift
+			continue
+			;;
+		'--')
+			shift
+			break
+			;;
+		*)
+			echo $1
+			echo 'Internal error!' >&2
+			exit 1
+			;;
+	esac
+done
+
+column_names+='|'
+line_separator+='|'
+awk_string+='|"}'
+
+echo "$column_names"
+echo "$line_separator"
+cat /proc/i8k | awk "$awk_string" | expand -t 4
