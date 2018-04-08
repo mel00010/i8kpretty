@@ -14,7 +14,7 @@
 
 
 if [ -z ${1+x} ]; then
-	cat /proc/i8k | awk '{ print "| CPU Temp  |  R Fan Speed  | R Fan Status  |\n|-----------|---------------|---------------|\n| "$4"\t\t| "$8"\t\t\t| "$6"\t\t\t\t|"}' | expand -t 4
+	cat /proc/i8k | awk '{ print "| CPU Temp  |  R Fan Speed  | R Fan Status  |\n|-----------|---------------|---------------|\n| "$4"\t\t| "$8"\t\t\t\t| "$6"\t\t\t\t|"}' | expand -t 4
 	exit 0
 fi
 
