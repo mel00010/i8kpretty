@@ -14,7 +14,7 @@
 
 
 if [ -z ${1+x} ]; then
-	cat /proc/i8k | awk '{ print "| CPU Temp  |  R Fan Speed  | R Fan Status  |\n|-----------|---------------|---------------|\n| "$4"\t\t| "$8"\t\t\t\t| "$6"\t\t\t\t|"}' | expand -t 4
+	cat /proc/i8k | awk '{ print "| CPU Temp  |  R Fan Speed  | R Fan Status  |\n|-----------|---------------|---------------|\n| "$4"\t\t| "$8" \t\t\t| "$6"\t\t\t\t|"}' | expand -t 4
 	exit 0
 fi
 
@@ -71,11 +71,11 @@ while true; do
 
 			column_names+='|  L Fan Speed  '
 			line_separator+='|---------------'
-			awk_string+='| "$7"\t\t\t'
+			awk_string+='| "$7" \t\t\t'
 
 			column_names+='|  R Fan Speed  '
 			line_separator+='|---------------'
-			awk_string+='| "$8"\t\t\t'
+			awk_string+='| "$8" \t\t\t'
 
 			column_names+='| AC Status '
 			line_separator+='|-----------'
@@ -118,25 +118,25 @@ while true; do
 		'-s'|'--fan-speed')
 			column_names+='|  L Fan Speed  '
 			line_separator+='|---------------'
-			awk_string+='| "$7"\t\t\t'
+			awk_string+='| "$7" \t\t\t'
 
 			column_names+='|  R Fan Speed  '
 			line_separator+='|---------------'
-			awk_string+='| "$8"\t\t\t'
+			awk_string+='| "$8" \t\t\t'
 			shift
 			continue
 			;;
 		'-l'|'--left-fan-speed')
 			column_names+='|  L Fan Speed  '
 			line_separator+='|---------------'
-			awk_string+='| "$7"\t\t\t'
+			awk_string+='| "$7" \t\t\t'
 			shift
 			continue
 			;;
 		'-r'|'--right-fan-speed')
 			column_names+='|  R Fan Speed  '
 			line_separator+='|---------------'
-			awk_string+='| "$8"\t\t\t'
+			awk_string+='| "$8" \t\t\t'
 			shift
 			continue
 			;;
