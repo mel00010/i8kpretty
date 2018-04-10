@@ -63,19 +63,19 @@ while true; do
 
 			column_names+='| L Fan Status  '
 			line_separator+='|---------------'
-			awk_string+='| "$5"\t\t\t'
+			awk_string+='| "$5" \t\t\t'
 
 			column_names+='| R Fan Status  '
 			line_separator+='|---------------'
-			awk_string+='| "$6"\t\t\t\t'
+			awk_string+='| "$6" \t\t\t'
 
 			column_names+='|  L Fan Speed  '
 			line_separator+='|---------------'
-			awk_string+='| "$7" \t\t\t'
+			awk_string+='| "$7"     \t\t'
 
 			column_names+='|  R Fan Speed  '
 			line_separator+='|---------------'
-			awk_string+='| "$8" \t\t\t'
+			awk_string+='| "$8"     \t\t'
 
 			column_names+='| AC Status '
 			line_separator+='|-----------'
@@ -129,32 +129,32 @@ while true; do
 		'-l'|'--left-fan-speed')
 			column_names+='|  L Fan Speed  '
 			line_separator+='|---------------'
-			awk_string+='| "$7" \t\t\t'
+			awk_string+='| "$7"     \t\t'
 			shift
 			continue
 			;;
 		'-r'|'--right-fan-speed')
 			column_names+='|  R Fan Speed  '
 			line_separator+='|---------------'
-			awk_string+='| "$8" \t\t\t'
+			awk_string+='| "$8"     \t\t'
 			shift
 			continue
 			;;
 		'-S'|'--fan-status')
 			column_names+='| L Fan Status  '
 			line_separator+='|---------------'
-			awk_string+='| "$5"\t\t\t'
+			awk_string+='| "$5"     \t\t'
 
 			column_names+='| R Fan Status  '
 			line_separator+='|---------------'
-			awk_string+='| "$6" \t\t\t'
+			awk_string+='| "$6"     \t\t'
 			shift
 			continue
 			;;
 		'-L'|'--left-fan-status')
 			column_names+='| L Fan Status  '
 			line_separator+='|---------------'
-			awk_string+='| "$5"\t\t\t'
+			awk_string+='| "$5" \t\t\t'
 			shift
 			continue
 			;;
